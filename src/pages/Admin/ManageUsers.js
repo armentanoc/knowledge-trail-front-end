@@ -11,7 +11,7 @@ const ManageUsers = () => {
     name: '',
     email: '',
     username: '',
-    password: '',
+    password: null,
     role: 'CLIENT',
   });
   const [editMode, setEditMode] = useState(false);
@@ -40,7 +40,7 @@ const ManageUsers = () => {
           alert(message);
         }
 
-        setNewUser({ name: '', email: '', username: '', password: '', role: 'CLIENT' });
+        setNewUser({ name: '', email: '', username: '', password: null, role: 'CLIENT' });
         setEditMode(false);
         await loadUsers();
       } catch (err) {
@@ -53,7 +53,7 @@ const ManageUsers = () => {
   };
 
   const handleEditUser = (userToEdit) => {
-    setNewUser({ ...userToEdit, password: '' });  
+    setNewUser({ ...userToEdit, password: null });  
     setEditMode(true);
     userFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
