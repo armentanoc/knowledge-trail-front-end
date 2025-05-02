@@ -1,5 +1,5 @@
 {
-  "name": "car-rental-front-end",
+  "name": "knowledge-trail-front-end",
   "version": "1.0.0",
   "description": "projeto de aluguel de veículos",
   "main": "index.js",
@@ -15,7 +15,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
     "react-scripts": "^5.0.1",
-    "car-rental-front-end": "file:"
+    "knowledge-trail-front-end": "file:"
   },
   "browserslist": {
     "production": [

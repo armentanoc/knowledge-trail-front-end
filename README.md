@@ -29,8 +29,13 @@ Quando você rodar o BackEnd, um usuário com perfil administrador será criado 
 - Usuário: `admin`
 - Senha: `admin`
 
+Um usuário com perfil cliente também será criado automaticamente:
+
+- Usuário: `client`
+- Senha: `client`
+
 ## BackEnd
 
 Você pode conferir o código do backend aqui:
-https://github.com/armentanoc/car-rental-back-end
+https://github.com/armentanoc/knowledge-trail-back-end
 
