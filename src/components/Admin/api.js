@@ -32,27 +32,21 @@ const updateSkill = (skillId, data) => apiRequest(`${BASE_URL}/skills/${skillId}
 const getSkillById = (skillId) => apiRequest(`${BASE_URL}/skills/${skillId}`);
 const searchSkillByName = (name) => apiRequest(`${BASE_URL}/skills/search?name=${encodeURIComponent(name)}`);
 
-// ========== IMAGE API ==========
-const fetchVehicleImages = (vehicleId) =>
-  apiRequest(`${BASE_URL}/vehicle-images/vehicle/${vehicleId}`);
-
-const addImage = (newImage) =>
-  apiRequest(`${BASE_URL}/vehicle-images`, 'POST', newImage);
-
-const removeImage = (imageId) =>
-  apiRequest(`${BASE_URL}/vehicle-images/${imageId}`, 'DELETE');
+// ========== TRAIL API ==========
+const fetchTrails = () => apiRequest(`${BASE_URL}/trails`);
+const createTrail = (trailData) => apiRequest(`${BASE_URL}/trails`, 'POST', trailData);
+const deleteTrail = (trailId) => apiRequest(`${BASE_URL}/trails/${trailId}`, 'DELETE');
+const updateTrail = (trailId, trailData) => apiRequest(`${BASE_URL}/trails/${trailId}`, 'PATCH', trailData);
+const getTrailVideos = (trailId) => apiRequest(`${BASE_URL}/trails/${trailId}/videos`);
+const addTrailVideos = (trailId, videoData) => apiRequest(`${BASE_URL}/trails/${trailId}/videos`, 'PATCH', videoData);
+const replaceTrailVideos = (trailId, videoData) => apiRequest(`${BASE_URL}/trails/${trailId}/videos`, 'PUT', videoData);
+const getTrailSkill = (trailId) => apiRequest(`${BASE_URL}/trails/${trailId}/skill`);
 
 // ========== EXPORTS ==========
 export const UserAPI = {
   fetchUsers,
   removeUser,
   updateUser,
-};
-
-export const ImageAPI = {
-  fetchVehicleImages,
-  addImage,
-  removeImage,
 };
 
 export const SkillAPI = {
@@ -62,4 +56,15 @@ export const SkillAPI = {
   updateSkill,
   getSkillById,
   searchSkillByName,
+};
+
+export const TrailAPI = {
+  fetchTrails,
+  createTrail,
+  deleteTrail,
+  updateTrail,
+  getTrailVideos,
+  addTrailVideos,
+  replaceTrailVideos,
+  getTrailSkill,
 };
