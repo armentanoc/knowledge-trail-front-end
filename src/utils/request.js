@@ -8,7 +8,10 @@ export const apiRequest = async (url, method = 'GET', body = null) => {
         },
         body: body ? JSON.stringify(body) : null,
       });
-  
+
+      if (response.status === 204) {
+        return null;
+      }
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Erro desconhecido');
       return data;

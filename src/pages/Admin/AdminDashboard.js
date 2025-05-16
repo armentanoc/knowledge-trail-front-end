@@ -30,16 +30,16 @@ const AdminDashboard = () => {
             Usuários
           </NavLink>
           <NavLink 
-            to="/admin/vehicles" 
-            className={`nav-link ${isActiveRoute('/admin/vehicles') ? 'active-link' : ''}`} 
+            to="/admin/skills" 
+            className={`nav-link ${isActiveRoute('/admin/skills') ? 'active-link' : ''}`} 
           >
-            Veículos
+            Habilidades
           </NavLink>
           <NavLink 
-            to="/admin/images" 
-            className={`nav-link ${isActiveRoute('/admin/images') ? 'active-link' : ''}`} 
+            to="/admin/trails" 
+            className={`nav-link ${isActiveRoute('/admin/trails') ? 'active-link' : ''}`} 
           >
-            Imagens
+            Trilhas
           </NavLink>
         </nav>
         <hr />

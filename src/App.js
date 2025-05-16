@@ -6,11 +6,10 @@ import { ThemeProvider } from "./context/ThemeContext"
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import ManageUsers from './pages/Admin/ManageUsers';
-import ManageVehicles from './pages/Admin/ManageVehicles';
-import ManageImages from './pages/Admin/ManageImages';
+import ManageSkills from './pages/Admin/ManageSkills';
+import ManageTrails from './pages/Admin/ManageTrails';
 import AdminDashboard from './pages/Admin/AdminDashboard';
-import ClientDashboard from './pages/Client/ClientDashboard';
-import AvailableVehicles from './pages/Client/AvailableVehicles';
+import EmployeeDashboard from './pages/Employee/EmployeeDashboard';
 import './App.css';
 
 function App() {
@@ -23,21 +22,21 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route
               path="/"
-              element={<PrivateRoute element={<Dashboard />} allowedRoles={['CLIENT', 'ATTENDING', 'MANAGER', 'ADMIN']} />}
+              element={<PrivateRoute element={<Dashboard />} allowedRoles={['ADMIN', 'EMPLOYEE']} />}
             />
             <Route
               path="/admin"
               element={<PrivateRoute element={<AdminDashboard />} allowedRoles={['ADMIN']} />}
             >
               <Route path="users" element={<ManageUsers />} />
-              <Route path="vehicles" element={<ManageVehicles />} />
-              <Route path="images" element={<ManageImages />} />
+              <Route path="skills" element={<ManageSkills />} />
+              <Route path="trails" element={<ManageTrails />} />
             </Route>
             <Route
               path="/client"
-              element={<PrivateRoute element={<ClientDashboard />} allowedRoles={['CLIENT']} />}
+              element={<PrivateRoute element={<EmployeeDashboard />} allowedRoles={['EMPLOYEE']} />}
             >
-              <Route path="catalog" element={<AvailableVehicles />} />
+              {/* <Route path="catalog" element={<AvailableVehicles />} /> */}
             </Route>
           </Routes>
         </AuthProvider>

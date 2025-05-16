@@ -24,16 +24,13 @@ const updateUser = (userId, userData, adminId) => {
   });
 };
 
-// ========== VEHICLE API ==========
-const fetchVehicles = () => apiRequest(`${BASE_URL}/vehicles`);
-
-const registerVehicle = (vehicleData) =>
-  apiRequest(`${BASE_URL}/vehicles`, 'POST', vehicleData);
-
-const removeVehicle = (vehicleId, adminId) => {
-  if (!adminId) throw new Error('adminId is required');
-  return apiRequest(`${BASE_URL}/vehicles/${vehicleId}`, 'POST', { adminId });
-};
+// ========== SKILL API ==========
+const fetchSkills = () => apiRequest(`${BASE_URL}/skills`);
+const createSkill = (skillData) => apiRequest(`${BASE_URL}/skills`, 'POST', skillData);
+const deleteSkill = (skillId) => apiRequest(`${BASE_URL}/skills/${skillId}`, 'DELETE');
+const updateSkill = (skillId, data) => apiRequest(`${BASE_URL}/skills/${skillId}`, 'PATCH', data);
+const getSkillById = (skillId) => apiRequest(`${BASE_URL}/skills/${skillId}`);
+const searchSkillByName = (name) => apiRequest(`${BASE_URL}/skills/search?name=${encodeURIComponent(name)}`);
 
 // ========== IMAGE API ==========
 const fetchVehicleImages = (vehicleId) =>
@@ -52,14 +49,17 @@ export const UserAPI = {
   updateUser,
 };
 
-export const VehicleAPI = {
-  fetchVehicles,
-  registerVehicle,
-  removeVehicle,
-};
-
 export const ImageAPI = {
   fetchVehicleImages,
   addImage,
   removeImage,
+};
+
+export const SkillAPI = {
+  fetchSkills,
+  createSkill,
+  deleteSkill,
+  updateSkill,
+  getSkillById,
+  searchSkillByName,
 };

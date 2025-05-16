@@ -19,9 +19,9 @@ const Dashboard = () => {
         case 'admin':
           navigate('/admin/user');
           break;
-        case 'client':
+        case 'employee':
         default:
-          navigate('/client/catalog');
+          navigate('/employee/skills');
           break;
       }
     }
@@ -35,7 +35,7 @@ const Dashboard = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/client">Painel do Cliente</Link>
+            <Link to="/employee">Painel do Funcionário</Link>
           </li> 
           <li>
             <Link to="/admin">Painel do Administrador</Link>

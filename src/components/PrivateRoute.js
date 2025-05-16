@@ -12,7 +12,7 @@ const PrivateRoute = ({ element, allowedRoles }) => {
   if (!allowedRoles.includes(user.role)) {
     const roleRedirects = {
       ADMIN: "/admin",
-      CLIENT: "/client"
+      EMPLOYEE: "/employee"
     };
 
     return <Navigate to={roleRedirects[user.role] || "/login"} />;
