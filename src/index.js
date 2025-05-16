@@ -2,15 +2,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { AuthProvider } from './context/AuthContext'; // Importando o AuthProvider
-import './App.css'; // Importando estilos globais
+import { AuthProvider } from './context/AuthContext'; 
+import './App.css'; 
 
-// Renderiza o aplicativo React
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider> {/* Envolvendo o App com AuthProvider para fornecer dados de autenticação */}
+    <AuthProvider> 
       <App />
     </AuthProvider>
   </React.StrictMode>,
-  document.getElementById('root') // Local onde o aplicativo será montado no DOM
+  document.getElementById('root') 
 );
