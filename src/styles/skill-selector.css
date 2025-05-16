@@ -1,0 +1,27 @@
+/* Custom styles to override global button styles */
+.skill-button {
+    display: inline-flex !important;
+    width: auto !important;
+    height: 40px !important;
+    padding: 0 16px !important;
+    margin: 0 !important;
+  }
+  
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  
+  @media (min-width: 640px) {
+    .skill-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .skill-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
