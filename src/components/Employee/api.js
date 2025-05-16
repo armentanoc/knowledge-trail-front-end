@@ -1,66 +1,16 @@
-const BASE_URL = 'http://localhost:8090';
+// src/components/Admin/api.js
+import { apiRequest } from '../../utils/request';
 
-const fetchAvailableVehicles = async ({
-  startDate = new Date(Date.now() + 60 * 60 * 1000), // 1 hour from now
-  endDate = new Date(Date.now() + 60 * 60 * 1000 + 30 * 24 * 60 * 60 * 1000), // +1 month
-  fuelType = null,
-  startYear = null,
-  endYear = null,
-  category = null
-} = {}) => {
-  try {
-    const requestBody = {
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      fuelType,
-      startYear,
-      endYear,
-      category
-    };
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8090';
 
-    const response = await fetch(`${BASE_URL}/rentals/available`, {
-      method: 'POST',
-      headers: {
-        'Accept': '*/*',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
+// ========== SKILL API ==========
 
-    if (!response.ok) {
-      const responseLog = await response.json();
-      console.error(responseLog.data);
-      throw new Error('Erro ao buscar veículos disponíveis');
-    }
+const fetchSkills = () => apiRequest(`${BASE_URL}/skills?page=0&size=50`);
+const getSkillById = (userId) => apiRequest(`${BASE_URL}/users/${userId}/skills`);  
+const updateSkill = (userId, selectedSkills) => apiRequest(`${BASE_URL}/users/${userId}/skills`, 'PUT', selectedSkills);
 
-    const availableVehicles = await response.json();
-    return availableVehicles;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
-
-const fetchVehicleImages = async (vehicleId) => {
-  try {
-    const response = await fetch(`${BASE_URL}/vehicle-images/vehicle/${vehicleId}`, {
-      method: 'GET',
-      headers: { 'Accept': '*/*' },
-    });
-
-    const data = await response.json();
-
-    if (Array.isArray(data)) {
-      return data;
-    }
-    return [];
-  } catch (error) {
-    console.error('Error fetching vehicle images:', error);
-    return [];
-  }
-};
-
-export {
-  fetchAvailableVehicles,
-  fetchVehicleImages
+export const SkillAPI = {
+  fetchSkills,
+  getSkillById,
+  updateSkill,
 };
