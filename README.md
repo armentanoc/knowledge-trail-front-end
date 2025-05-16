@@ -29,10 +29,10 @@ Quando você rodar o BackEnd, um usuário com perfil administrador será criado 
 - Usuário: `admin`
 - Senha: `admin`
 
-Um usuário com perfil cliente também será criado automaticamente:
+Um usuário com perfil employee também será criado automaticamente:
 
-- Usuário: `client`
-- Senha: `client`
+- Usuário: `employee`
+- Senha: `employee`
 
 ## BackEnd
 

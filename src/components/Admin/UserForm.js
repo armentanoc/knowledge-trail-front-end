@@ -9,9 +9,7 @@ const UserForm = ({ newUser, setNewUser, onRegisterUser, editMode }) => {
       <input type="text" placeholder="Usuário" value={newUser.username} onChange={(e) => setNewUser({ ...newUser, username: e.target.value })} />
       <input type="password" placeholder="Senha" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
       <select value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}>
-        <option value="CLIENT">Cliente</option>
-        <option value="ATTENDING">Atendimento</option>
-        <option value="MANAGER">Gerente</option>
+        <option value="EMPLOYEE">Funcionário</option>
         <option value="ADMIN">Administrador</option>
       </select>
       <button className="input-button" onClick={onRegisterUser}>

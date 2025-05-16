@@ -6,7 +6,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Função para fazer login
   const login = async (credentials) => {
     try {
       const response = await axios.post('http://localhost:8090/auth', credentials, {
@@ -16,11 +15,10 @@ export const AuthProvider = ({ children }) => {
         },
       });
 
-      // Se o login for bem-sucedido
       if (response.data.success) {
         const loggedInUser = response.data.user; 
         setUser(loggedInUser);
-        localStorage.setItem('user', JSON.stringify(loggedInUser)); // Armazenar dados do usuário no localStorage
+        localStorage.setItem('user', JSON.stringify(loggedInUser)); 
         return { success: true, message: 'Novo usuário logado (UserId: '+loggedInUser.id+')' };
       } else {
         return { success: false, message: response.data.message || 'Login failed.' };
@@ -30,13 +28,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Função para fazer logout
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user'); // Remover dados do usuário do localStorage
+    localStorage.removeItem('user'); 
   };
 
-  // Função para registrar um novo usuário
   const register = async (userData, adminId) => {
     try {
       const formattedUserData = {
@@ -67,7 +63,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Recupera dados do usuário armazenados no localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) {
       setUser(storedUser);

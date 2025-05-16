@@ -12,7 +12,7 @@ const ManageUsers = () => {
     email: '',
     username: '',
     password: null,
-    role: 'CLIENT',
+    role: 'EMPLOYEE',
   });
   const [editMode, setEditMode] = useState(false);
   const userFormRef = useRef(null);
@@ -40,7 +40,7 @@ const ManageUsers = () => {
           alert(message);
         }
 
-        setNewUser({ name: '', email: '', username: '', password: null, role: 'CLIENT' });
+        setNewUser({ name: '', email: '', username: '', password: null, role: 'EMPLOYEE' });
         setEditMode(false);
         await loadUsers();
       } catch (err) {

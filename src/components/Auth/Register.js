@@ -10,16 +10,14 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('Cliente');
+  const [role, setRole] = useState('Funcionário');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = { username, password, role, name, email };
-
-    // Armazena o novo usuário no localStorage através da função register
     register(userData);
-    navigate('/login'); // Redireciona para a página de login após o registro
+    navigate('/login');
   };
 
   return (
@@ -59,9 +57,7 @@ const Register = () => {
           onChange={(e) => setRole(e.target.value)} 
           required
         >
-          <option value="CLIENT">Cliente</option>
-          <option value="ATTENDING">Atendimento</option>
-          <option value="MANAGER">Gerente</option>
+          <option value="EMPLOYEE">Funcionário</option>
           <option value="ADMIN">Administrador</option>
         </select>
         <button type="submit">Cadastrar</button>

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
 const RegisterUser = ( {onUserAdded} ) => {
-  const { register } = useAuth(); // Usar função de registro existente
+  const { register } = useAuth(); 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('CLIENT'); // Valor padrão
+  const [role, setRole] = useState('EMPLOYEE'); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,15 +21,10 @@ const RegisterUser = ( {onUserAdded} ) => {
     };
 
     try {
-      // Chama a função de registro do AuthContext
       const { success, message } = await register(userData);
       console.log("Success: " + success);
       console.log("Message: " + message);
-      
-      // Recarrega lista de usuários
       onUserAdded();
-
-      // Exibe mensagem de sucesso ou erro
       alert(message); 
 
     } catch (error) {
@@ -37,12 +32,11 @@ const RegisterUser = ( {onUserAdded} ) => {
       alert('Ocorreu um erro durante o registro.'); 
     }
 
-    // Limpar campos após o registro
     setName('');
     setEmail('');
     setUsername('');
     setPassword('');
-    setRole('CLIENT');
+    setRole('EMPLOYEE');
   };
 
   return (
@@ -82,9 +76,7 @@ const RegisterUser = ( {onUserAdded} ) => {
           onChange={(e) => setRole(e.target.value)} 
           required
         >
-          <option value="CLIENT">Cliente</option>
-          <option value="ATTENDING">Atendimento</option>
-          <option value="MANAGER">Gerente</option>
+          <option value="EMPLOYEE">Funcionário</option>
           <option value="ADMIN">Administrador</option>
         </select>
         <button type="submit">Registrar</button>
