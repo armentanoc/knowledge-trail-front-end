@@ -92,7 +92,7 @@ export default function SkillSelector() {
   );
 
   if (loading) {
-    return <p>Loading skills...</p>;
+    return <p>Carregando habilidades...</p>;
   }
 
   return (
