@@ -1,7 +1,7 @@
 {
   "name": "knowledge-trail-front-end",
   "version": "1.0.0",
-  "description": "projeto de aluguel de veículos",
+  "description": "projeto de gerenciamento de trilhas de conhecimento",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
@@ -12,12 +12,17 @@
   "dependencies": {
     "axios": "^1.7.7",
     "framer-motion": "^12.12.1",
+    "json2mq": "^0.2.0",
     "knowledge-trail-front-end": "file:",
     "lucide-react": "^0.511.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "react-slick": "^0.30.3",
+    "resize-observer-polyfill": "^1.5.1",
+    "slick-carousel": "^1.8.1",
+    "string-convert": "^0.2.1"
   },
   "browserslist": {
     "production": [

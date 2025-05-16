@@ -128,7 +128,7 @@ export default function SkillSelector() {
                 layout
                 initial={false}
                 animate={{
-                  backgroundColor: isSelected ? "var(--primary)" : "var(--border)",
+                  backgroundColor: isSelected ? "var(--primary)" : "var(--secondary-button)",
                 }}
                 whileHover={{
                   backgroundColor: isSelected ? "var(--primary-dark)" : "var(--primary)",
@@ -159,14 +159,22 @@ export default function SkillSelector() {
 
         {/* Description container */}
         <div className={`description-container ${hoveredSkill ? "has-content" : ""}`}>
-          {hoveredSkill ? (
-            <div>
-              <h4 className="font-medium mb-2">{hoveredSkill.name}</h4>
-              <p>{hoveredSkill.description || "Nenhuma descrição disponível para esta habilidade."}</p>
-            </div>
-          ) : (
-            <p className="text-[var(--text-secondary)]">Passe o mouse sobre uma habilidade para ver sua descrição</p>
-          )}
+          <motion.div
+            key={hoveredSkill?.id || "none"}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.7 }}
+          >
+            {hoveredSkill ? (
+              <div>
+                <h4 className="font-medium mb-2">{hoveredSkill.name}</h4>
+                <p>{hoveredSkill.description || "Nenhuma descrição disponível para esta habilidade."}</p>
+              </div>
+            ) : (
+              <p className="text-[var(--text-secondary)]">Passe o mouse sobre uma habilidade para ver sua descrição</p>
+            )}
+          </motion.div>
         </div>
 
         <div className="text-center mt-10">
