@@ -1,4 +1,3 @@
-import React from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import ThemeToggle from '../../components/ThemeToggle';
@@ -18,21 +17,26 @@ const EmployeeDashboard = () => {
   return (
     <div className="layout">
       <header className="header">
-        <h2>Cliente</h2>
+        <h2>Funcionário</h2>
         <ThemeToggle />
         <p>Bem-vindo, {user?.name?.split(' ')[0]}!</p>
         <button className="logout-button" onClick={handleLogout}>Logout</button>
         <nav className="nav-links">
           <NavLink 
-            to="/client/catalog" 
-            className={`nav-link ${isActiveRoute('/client/catalog') ? 'active-link' : ''}`} 
+            to="/employee/skills" 
+            className={`nav-link ${isActiveRoute('/employee/skills') ? 'active-link' : ''}`} 
           >
-            Catálogo
+            Habilidades
+          </NavLink>
+          <NavLink 
+            to="/employee/trails" 
+            className={`nav-link ${isActiveRoute('/employee/trails') ? 'active-link' : ''}`} 
+          >
+            Trilhas
           </NavLink>
         </nav>
         <hr />
       </header>
-
       <main>
         <Outlet />
       </main>

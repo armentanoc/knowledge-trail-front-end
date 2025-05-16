@@ -8,13 +8,12 @@ const Dashboard = () => {
   const navigate = useNavigate();
   
   const handleLogout = () => {
-    logout(); // Executa logout
-    navigate('/login'); // Redireciona para a página de login
+    logout(); 
+    navigate('/login'); 
   };
 
   useEffect(() => {
     if (user) {
-      // Redireciona para o painel correspondente com base no perfil do usuário
       switch (user.role) {
         case 'admin':
           navigate('/admin/user');

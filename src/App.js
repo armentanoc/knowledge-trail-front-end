@@ -10,6 +10,8 @@ import ManageSkills from './pages/Admin/ManageSkills';
 import ManageTrails from './pages/Admin/ManageTrails';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import EmployeeDashboard from './pages/Employee/EmployeeDashboard';
+import SkillsCloud from './components/Employee/SkillsCloud';
+import MyTrails from './components/Employee/MyTrails';
 import './App.css';
 
 function App() {
@@ -33,10 +35,11 @@ function App() {
               <Route path="trails" element={<ManageTrails />} />
             </Route>
             <Route
-              path="/client"
+              path="/employee"
               element={<PrivateRoute element={<EmployeeDashboard />} allowedRoles={['EMPLOYEE']} />}
             >
-              {/* <Route path="catalog" element={<AvailableVehicles />} /> */}
+              <Route path="skills" element={<SkillsCloud />} />
+              <Route path="trails" element={<MyTrails />} />
             </Route>
           </Routes>
         </AuthProvider>

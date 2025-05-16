@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,14 +9,13 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Se o usuário estiver autenticado, redireciona para o painel correspondente
     if (user) {
       switch (user.role) {
         case 'ADMIN':
           navigate('/admin/users');
           break;
         default:
-          navigate('/client/catalog');
+          navigate('/employee/skills');
           break;
       }
     }
@@ -26,17 +25,14 @@ const Login = () => {
     e.preventDefault();
 
     const credentials = { username, password };
-
-    // Usa o método de login do AuthContext
     const { success, message } = await login(credentials);
 
-    // Se o nome de usuário ou senha estiver errado
     if (!success) {
       console.error("Login error: "+message)
       alert(message);
     }
     else {
-      console.log("Login successful: "+message) // Exibir informações do usuário se estiver correto
+      console.log("Login successful: "+message) 
     }
   };
 
