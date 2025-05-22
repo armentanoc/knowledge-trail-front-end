@@ -1,28 +1,74 @@
 import { useEffect, useState } from "react"
 import Slider from "react-slick"
-import { SkillAPI } from "./api"
+import { SkillAPI, TrailProgressAPI } from "./api"
 import { useAuth } from "../../context/AuthContext"
-
 
 const getEmbedUrl = (url) => {
   const videoIdMatch = url.match(/(?:\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/)
   return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : url
 }
 
+
 export default function MyTrails() {
-  
+
   const { user } = useAuth()
   const [skillsWithTrails, setSkillsWithTrails] = useState([])
   const [loading, setLoading] = useState(true)
+  const [watchedMap, setWatchedMap] = useState({});
+  const toggleWatchStatus = async (trailId, videoId) => {
+    const watched = watchedMap[trailId]?.includes(videoId);
+
+    try {
+      const success = watched
+        ? await TrailProgressAPI.unwatchVideo(user.id, trailId, videoId)
+        : await TrailProgressAPI.watchVideo(user.id, trailId, videoId);
+
+      if (success) {
+        setWatchedMap((prev) => {
+          const currentList = prev[trailId] || [];
+          const updatedList = watched
+            ? currentList.filter((id) => id !== videoId)
+            : [...currentList, videoId];
+
+          return { ...prev, [trailId]: updatedList };
+        });
+      }
+    } catch (err) {
+      console.error('Failed to toggle video status', err);
+    }
+  };
 
   useEffect(() => {
-    if (user?.id) {
-      SkillAPI.getUserSkillTrails(user.id)
-        .then(setSkillsWithTrails)
-        .catch((err) => console.error("Failed to load skill trails", err))
-        .finally(() => setLoading(false))
-    }
-  }, [user?.id])
+    const fetchTrailsAndProgress = async () => {
+      if (!user?.id) return;
+
+      try {
+        const skills = await SkillAPI.getUserSkillTrails(user.id);
+        setSkillsWithTrails(skills);
+        const watchedMap = {};
+        const allTrails = skills.flatMap((skill) => skill.trails || []);
+        await Promise.all(
+          allTrails.map(async (trail) => {
+            try {
+              const watched = await TrailProgressAPI.getWatchedVideos(user.id, trail.id);
+              watchedMap[trail.id] = watched;
+            } catch (err) {
+              console.error(`Failed to fetch watched videos for trail ${trail.id}`, err);
+            }
+          })
+        );
+
+        setWatchedMap(watchedMap);
+      } catch (err) {
+        console.error("Failed to load skill trails", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrailsAndProgress();
+  }, [user?.id]);
+
 
   const settings = {
     dots: true,
@@ -57,25 +103,55 @@ export default function MyTrails() {
             <div key={trail.id} className="mb-8">
               <h4 className="text-lg font-medium mb-3 text-center">{trail.title}</h4>
 
+              {(() => {
+                const watchedCount = (watchedMap[trail.id] || []).length;
+                const totalCount = trail.videos.length;
+
+                let status = "Não iniciado";
+                if (watchedCount === totalCount && totalCount > 0) {
+                  status = "Concluído";
+                } else if (watchedCount > 0) {
+                  status = "Em progresso";
+                }
+
+                return (
+                  <button className={`trail-status-button ${status.toLowerCase().replace(" ", "-")}`}>
+                    {status}
+                  </button>
+                );
+              })()}
+
               <div className="slider-container">
-              <Slider {...{ ...settings, slidesToShow: Math.min(2, trail.videos.length) }}>
-                {trail.videos.map((video, index) => (
-                  <div key={`${trail.id}-${video.id}-${index}`} className="slide-item">
-                      <div className="video-wrapper">
-                        <div className="iframe-container">
-                          <iframe
-                            src={getEmbedUrl(video.url)}
-                            title={video.title}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            className="video-iframe"
-                          />
+                <Slider {...{ ...settings, slidesToShow: Math.min(2, trail.videos.length) }}>
+                  {trail.videos.map((video, index) => {
+                    const watched = watchedMap[trail.id]?.includes(video.id);
+
+                    return (
+                      <div key={`${trail.id}-${video.id}-${index}`} className="slide-item">
+                        <div className="video-wrapper">
+                          <div className="iframe-container">
+                            <iframe
+                              src={getEmbedUrl(video.url)}
+                              title={video.title}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              className="video-iframe"
+                            />
+                          </div>
+                          <p className="video-title">
+                            {video.title}
+                          </p>
+                          <button
+                            className={`watch-toggle-button ${watched ? 'watched' : 'not-watched'}`}
+                            onClick={() => toggleWatchStatus(trail.id, video.id)}
+                          >
+                            {watched ? '✅ Você já assistiu este vídeo' : '📺 Marcar como assistido'}
+                          </button>
                         </div>
-                        <p className="video-title">{video.title}</p>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </Slider>
               </div>
             </div>
@@ -209,6 +285,57 @@ export default function MyTrails() {
         .slick-next {
           right: 10px !important;
         }
+
+        .watch-toggle-button {
+          margin-top: 6px;
+          padding: 6px 12px;
+          font-size: 14px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          display: inline-block;
+          text-align: center;
+          transition: background 0.2s ease;
+        }
+
+        .watch-toggle-button.watched {
+          background-color: #e6f4ea;
+          color: #2e7d32;
+          font-weight: 600;
+        }
+
+        .watch-toggle-button.not-watched {
+          background-color: #f0f0f0;
+          color: #444;
+        }
+
+        .trail-status-button {
+          margin: 6px auto 16px auto;
+          padding: 6px 12px;
+          font-size: 14px;
+          border: none;
+          border-radius: 6px;
+          cursor: default;
+          text-align: center;
+          font-weight: 600;
+          display: block;
+        }
+
+        .trail-status-button.não-iniciado {
+          background-color: #f0f0f0;
+          color: #666;
+        }
+
+        .trail-status-button.em-progresso {
+          background-color: #fff8e1;
+          color: #ff9800;
+        }
+
+        .trail-status-button.concluído {
+          background-color: #e6f4ea;
+          color: #2e7d32;
+        }
+
       `}</style>
     </div>
   )

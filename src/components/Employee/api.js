@@ -16,3 +16,20 @@ export const SkillAPI = {
   updateSkill,
   getUserSkillTrails, 
 };
+
+// ========== TRAIL PROGRESS API ==========
+
+const getWatchedVideos = (userId, trailId) =>
+  apiRequest(`${BASE_URL}/trail-progress?userId=${userId}&trailId=${trailId}`);
+
+const watchVideo = (userId, trailId, videoId) =>
+  apiRequest(`${BASE_URL}/trail-progress/watch?userId=${userId}&trailId=${trailId}&videoId=${videoId}`, 'POST');
+
+const unwatchVideo = (userId, trailId, videoId) =>
+  apiRequest(`${BASE_URL}/trail-progress/unwatch?userId=${userId}&trailId=${trailId}&videoId=${videoId}`, 'POST');
+
+export const TrailProgressAPI = {
+  getWatchedVideos,
+  watchVideo,
+  unwatchVideo,
+};
