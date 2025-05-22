@@ -41,6 +41,12 @@ const AdminDashboard = () => {
           >
             Trilhas
           </NavLink>
+          <NavLink 
+            to="/admin/progress" 
+            className={`nav-link ${isActiveRoute('/admin/progress') ? 'active-link' : ''}`} 
+          >
+            Progresso
+          </NavLink>
         </nav>
         <hr />
       </header>

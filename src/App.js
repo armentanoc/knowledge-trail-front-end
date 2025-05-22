@@ -12,6 +12,7 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import EmployeeDashboard from './pages/Employee/EmployeeDashboard';
 import SkillSelector from './components/Employee/SkillSelector';
 import MyTrails from './components/Employee/MyTrails';
+import VerifyProgress from './pages/Admin/VerifyProgress';
 import './App.css';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
               <Route path="users" element={<ManageUsers />} />
               <Route path="skills" element={<ManageSkills />} />
               <Route path="trails" element={<ManageTrails />} />
+              <Route path="progress" element={<VerifyProgress />} />
             </Route>
             <Route
               path="/employee"
