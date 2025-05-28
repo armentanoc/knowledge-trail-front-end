@@ -1,91 +1,109 @@
 // src/pages/admin/VerifyProgress.js
-import React, { useEffect, useState, useRef } from 'react';
-// import { SkillAPI } from '../../components/Admin/api';
-// import SkillForm from '../../components/Admin/SkillForm';
-// import SkillTable from '../../components/Admin/SkillTable';
+import React, { useState } from 'react';
+import { VerifyProgressAPI } from '../../components/Admin/api';
 
 const VerifyProgress = () => {
-  // const [skills, setSkills] = useState([]);
-  // const [newSkill, setNewSkill] = useState({ id: null, name: '', description: '' });
-  // const [editMode, setEditMode] = useState(false);
-  // const skillFormRef = useRef(null);
+    const [skillId, setSkillId] = useState('');
+    const [userId, setUserId] = useState('');
+    const [employees, setEmployees] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-  // const loadSkills = async () => {
-  //   try {
-  //     const data = await SkillAPI.fetchSkills();
-  //     setSkills(data.content || data);
-  //   } catch (err) {
-  //     console.error('Erro ao carregar habilidades:', err);
-  //     alert('Erro ao carregar habilidades.');
-  //   }
-  // };
+    const handleFetchEmployeesBySkill = async () => {
+        if (!skillId.trim()) {
+            alert('Informe o ID da habilidade.');
+            return;
+        }
 
-  // const handleRegisterSkill = async () => {
-  //   const { name, description, id } = newSkill;
+        try {
+            setLoading(true);
+            const data = await VerifyProgressAPI.fetchEmployeesBySkill(skillId.trim());
+            setEmployees(data || []);
+        } catch (err) {
+            console.error('Erro ao buscar funcionários por skillId:', err);
+            alert('Erro ao buscar funcionários.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  //   if (!name.trim()) {
-  //     return alert('Nome da habilidade é obrigatório.');
-  //   }
+    const handleFetchSkillsByUser = async () => {
+        if (!userId.trim()) {
+            alert('Informe o ID do usuário.');
+            return;
+        }
 
-  //   try {
-  //     if (editMode && id !== null) {
-  //       await SkillAPI.updateSkill(id, { name, description });
-  //       alert('Habilidade atualizada com sucesso!');
-  //     } else {
-  //       await SkillAPI.createSkill({ name, description });
-  //       alert('Habilidade criada com sucesso!');
-  //     }
+        try {
+            setLoading(true);
+            const data = await VerifyProgressAPI.fetchSkillsByUser(userId.trim());
+            setSkills(data || []);
+        } catch (err) {
+            console.error('Erro ao buscar habilidades por userId:', err);
+            alert('Erro ao buscar habilidades.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  //     setNewSkill({ id: null, name: '', description: '' });
-  //     setEditMode(false);
-  //     await loadSkills();
-  //   } catch (err) {
-  //     console.error(err);
-  //     alert(editMode ? 'Erro ao atualizar habilidade.' : 'Erro ao criar habilidade.');
-  //   }
-  // };
+    return (
+        <div className="p-6">
+            <h2 className="text-xl font-bold mb-4">Verificar Progresso</h2>
 
-  // const handleEditSkill = (skill) => {
-  //   setNewSkill({ id: skill.id, name: skill.name, description: skill.description });
-  //   setEditMode(true);
-  //   skillFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  // };
+            <div className="mb-6">
+                <h3 className="text-lg font-semibold">Funcionários com habilidade validada</h3>
+                <input
+                    type="text"
+                    placeholder="Skill ID"
+                    value={skillId}
+                    onChange={(e) => setSkillId(e.target.value)}
+                    className="border rounded px-3 py-2 mr-2"
+                />
+                <button
+                    onClick={handleFetchEmployeesBySkill}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                    Buscar
+                </button>
 
-  // const handleDeleteSkill = async (skillId) => {
-  //   try {
-  //     await SkillAPI.deleteSkill(skillId);
-  //     setSkills(prev => prev.filter(s => s.id !== skillId));
-  //     alert('Habilidade removida com sucesso.');
-  //   } catch (err) {
-  //     console.error('Erro ao remover habilidade:', err);
-  //     alert('Erro ao remover habilidade.');
-  //   }
-  // };
+                {loading && <p>Carregando...</p>}
 
-  // useEffect(() => {
-  //   loadSkills();
-  // }, []);
+                {employees.length > 0 && (
+                    <ul className="mt-4 list-disc list-inside">
+                        {employees.map((emp) => (
+                            <li key={emp.id}>{emp.name || emp.email || `ID ${emp.id}`}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
 
-  return (
-    <div>
-      <h2>Retornar employees por skillId com a habilidade validade (trilha concluída)</h2>
-      <h2>Retornar skills validadas para um determinado funcionário por userId (trilha concluída)</h2>
-      {/* <div ref={skillFormRef}>
-        <SkillForm
-          newSkill={newSkill}
-          setNewSkill={setNewSkill}
-          onRegisterSkill={handleRegisterSkill}
-          editMode={editMode}
-        />
-      </div>
+            <div className="mb-6">
+                <h3 className="text-lg font-semibold">Habilidades validadas por usuário</h3>
+                <input
+                    type="text"
+                    placeholder="User ID"
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
+                    className="border rounded px-3 py-2 mr-2"
+                />
+                <button
+                    onClick={handleFetchSkillsByUser}
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                >
+                    Buscar
+                </button>
 
-      <SkillTable
-        skills={skills}
-        onDeleteSkill={handleDeleteSkill}
-        onEditSkill={handleEditSkill}
-      /> */}
-    </div>
-  );
+                {loading && <p>Carregando...</p>}
+
+                {skills.length > 0 && (
+                    <ul className="mt-4 list-disc list-inside">
+                        {skills.map((skill) => (
+                            <li key={skill.id}>{skill.name}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default VerifyProgress;

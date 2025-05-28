@@ -15,7 +15,7 @@ const updateUser = (userId, userData, adminId) => {
   if (!adminId) throw new Error('adminId is required');
 
   const filteredData = Object.fromEntries(
-    Object.entries(userData).filter(([_, v]) => v !== undefined)
+      Object.entries(userData).filter(([_, v]) => v !== undefined)
   );
 
   return apiRequest(`${BASE_URL}/users/${userId}`, 'PATCH', {
@@ -42,6 +42,13 @@ const addTrailVideos = (trailId, videoData) => apiRequest(`${BASE_URL}/trails/${
 const replaceTrailVideos = (trailId, videoData) => apiRequest(`${BASE_URL}/trails/${trailId}/videos`, 'PUT', videoData);
 const getTrailSkill = (trailId) => apiRequest(`${BASE_URL}/trails/${trailId}/skill`);
 
+// ========== VERIFY PROGRESS API ==========
+const fetchEmployeesBySkill = (skillId) =>
+    apiRequest(`${BASE_URL}/trail-progress/employees-by-skill?skillId=${skillId}`);
+
+const fetchSkillsByUser = (userId) =>
+    apiRequest(`${BASE_URL}/trail-progress/skills-by-user?userId=${userId}`);
+
 // ========== EXPORTS ==========
 export const UserAPI = {
   fetchUsers,
@@ -67,4 +74,9 @@ export const TrailAPI = {
   addTrailVideos,
   replaceTrailVideos,
   getTrailSkill,
+};
+
+export const VerifyProgressAPI = {
+  fetchEmployeesBySkill,
+  fetchSkillsByUser,
 };
