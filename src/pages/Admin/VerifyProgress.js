@@ -70,7 +70,7 @@ const VerifyProgress = () => {
                 {employees.length > 0 && (
                     <ul className="mt-4 list-disc list-inside">
                         {employees.map((emp) => (
-                            <li key={emp.id}>{emp.name || emp.email || `ID ${emp.id}`}</li>
+                            <li key={emp.user.id}>{emp.user.name || emp.user.email || `ID ${emp.user.id}`}</li>
                         ))}
                     </ul>
                 )}
