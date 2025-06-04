@@ -25,7 +25,7 @@ const updateUser = (userId, userData, adminId) => {
 };
 
 // ========== SKILL API ==========
-const fetchSkills = () => apiRequest(`${BASE_URL}/skills`);
+const fetchSkills = () => apiRequest(`${BASE_URL}/skills?page=0&size=50`);
 const createSkill = (skillData) => apiRequest(`${BASE_URL}/skills`, 'POST', skillData);
 const deleteSkill = (skillId) => apiRequest(`${BASE_URL}/skills/${skillId}`, 'DELETE');
 const updateSkill = (skillId, data) => apiRequest(`${BASE_URL}/skills/${skillId}`, 'PATCH', data);
